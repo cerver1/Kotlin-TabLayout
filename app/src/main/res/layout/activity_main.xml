@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@drawable/cerve_gradient"
         app:layout_constraintBottom_toTopOf="@id/ViewPager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +20,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/Toolbar"
             android:layout_width="match_parent"
-            app:title="TabLayout v2"
+            app:title="@string/app_name"
             app:titleTextColor="@android:color/white"
             android:layout_height="?attr/actionBarSize"/>
 

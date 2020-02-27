@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class TabAdapter(fm: FragmentManager) :
     FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
     override fun getItem(position: Int) = when (position) {
         0 -> FirstFragment()
         1 -> SecondFragment()

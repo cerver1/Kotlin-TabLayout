@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">TabLayout v2</string>
+
+    <string name="app_name">Cerve TabLayout</string>
+    <string name="FirstTab">First</string>
+    <string name="SecondTab">Second</string>
+    <string name="ThirdTab">Third</string>
+
 </resources>
