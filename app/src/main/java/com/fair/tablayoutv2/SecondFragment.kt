@@ -8,6 +8,8 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Environment.DIRECTORY_DCIM
+import android.os.Environment.getExternalStoragePublicDirectory
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Rational
@@ -90,6 +92,7 @@ class SecondFragment : Fragment(R.layout.second_fragment)  {
                     it.setSurfaceProvider(viewBinding.viewFinder.createSurfaceProvider())
                 }
             imageCapture = ImageCapture.Builder().build()
+
             imageAnalyzer = ImageAnalysis.Builder().build().also {
                 it.setAnalyzer(cameraExecutor, LuminosityAnalyzer {
 
@@ -101,7 +104,7 @@ class SecondFragment : Fragment(R.layout.second_fragment)  {
 
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalyzer)
+                cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, imageAnalyzer,preview)
 
             } catch(exc: Exception) {
 
@@ -110,21 +113,21 @@ class SecondFragment : Fragment(R.layout.second_fragment)  {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
     private fun takePhoto() {
-        val imageCapture = imageCapture?: return
+
+        val thisImageCapture = imageCapture?: return
 
         val photoFile = File (
             outputDirectory, SimpleDateFormat(FILENAME_FORMAT, Locale.US)
-                .format(System.currentTimeMillis()) + PHOTO_EXTENSION)
-        val outputOptions = ImageCapture
-            .OutputFileOptions
+                .format(System.currentTimeMillis())+PHOTO_EXTENSION)
+
+        val outputOptions = ImageCapture.OutputFileOptions
             .Builder(photoFile)
             .build()
 
-        imageCapture.takePicture(
-            outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback
-            {
+        thisImageCapture.takePicture(
+            outputOptions, ContextCompat.getMainExecutor(requireContext()), object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exception: ImageCaptureException) {
-                    // something
+                    Toast.makeText(context, exception.toString(), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
